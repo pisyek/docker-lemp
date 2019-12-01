@@ -1,0 +1,48 @@
+version: '3.7'
+
+networks:
+    LEMP:
+        driver: bridge
+
+services:
+    php:
+        build:
+            context: ./data/php
+            dockerfile: Dockerfile
+        container_name: ${APP_NAME:?err}-php
+        volumes:
+            - './app:/var/www'
+        networks:
+            - LEMP
+
+    nginx:
+        image: 'nginx:1.17.6'
+        container_name: ${APP_NAME:?err}-nginx
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - './app:/var/www'
+            - './data/nginx/conf:/etc/nginx/conf.d'
+            - './data/nginx/log:/var/log/nginx'
+        depends_on:
+            - php
+            - mariadb
+        networks:
+            - LEMP
+
+    mariadb:
+        image: 'mariadb:10.4.10'
+        container_name: ${APP_NAME:?err}-mariadb
+        ports:
+            - 127.0.0.1:3306:3306
+        restart: 'on-failure'
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
+            MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
+            MYSQL_USER: ${MYSQL_USER:?err}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
+        volumes:
+            - ./data/mariadb:/var/lib/mysql:rw
+        networks:
+            - LEMP
