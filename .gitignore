@@ -1,0 +1,5 @@
+.env
+/app/*
+/data/nginx/log/*
+/data/mariadb/*
+
