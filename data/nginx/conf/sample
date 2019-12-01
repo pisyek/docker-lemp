@@ -1,0 +1,22 @@
+server {
+    listen         80;
+    listen         [::]:80;
+
+    server_name    example.com www.example.com;
+    root           /var/www/app-folder;
+    index          index.php index.html;
+
+    location / {
+      try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~* \.php$ {
+      #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+      fastcgi_pass    php:9000;
+      include         fastcgi_params;
+      fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+      fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+    }
+
+    include ../snippets/restictions.conf;
+}
