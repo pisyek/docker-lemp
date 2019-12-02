@@ -1,8 +1,8 @@
 server {
     server_name  example.com;
     return       301 http://www.example.com$request_uri;
-
 }
+
 server {
     listen         80;
     listen         [::]:80;
@@ -19,7 +19,6 @@ server {
     }
 
     location ~* \.php$ {
-      #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
       fastcgi_pass    php:9000;
       include         fastcgi_params;
       fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
