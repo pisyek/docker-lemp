@@ -1,8 +1,13 @@
 server {
+    server_name  example.com;
+    return       301 http://www.example.com$request_uri;
+
+}
+server {
     listen         80;
     listen         [::]:80;
 
-    server_name    example.com www.example.com;
+    server_name    www.example.com;
     root           /var/www/app-folder;
     index          index.php index.html;
 
