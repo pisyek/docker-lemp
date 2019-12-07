@@ -9,7 +9,7 @@ services:
         build:
             context: ./data/php
             dockerfile: Dockerfile
-        container_name: ${APP_NAME:?err}-php
+        container_name: php
         volumes:
             - './app:/var/www'
         networks:
@@ -17,7 +17,7 @@ services:
 
     nginx:
         image: 'nginx:1.17.6'
-        container_name: ${APP_NAME:?err}-nginx
+        container_name: nginx
         ports:
             - '80:80'
             - '443:443'
@@ -34,7 +34,7 @@ services:
 
     mariadb:
         image: 'mariadb:10.4.10'
-        container_name: ${APP_NAME:?err}-mariadb
+        container_name: mariadb
         ports:
             - 127.0.0.1:3306:3306
         restart: 'on-failure'
