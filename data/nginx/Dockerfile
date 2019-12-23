@@ -8,7 +8,7 @@ ENV HEADERS_MORE_VERSION 0.33
 
 # Download sources
 RUN wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
-  wget "https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz" -O headers-more.tar.gz
+    wget "https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz" -O headers-more.tar.gz
 
 # For latest build deps, see https://github.com/nginxinc/docker-nginx/blob/master/mainline/alpine/Dockerfile
 RUN apk add --no-cache --virtual .build-deps \
@@ -41,10 +41,12 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
 
 FROM nginx:alpine
 
-# Extract the dynamic module NCHAN from the builder image
+# Extract the dynamic module headers more from the builder image
 COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
+
+RUN rm -d /var/www/html
 
 EXPOSE 80
 
