@@ -12,7 +12,7 @@ services:
         container_name: php
         restart: 'unless-stopped'
         volumes:
-            - './app:/var/www,rw'
+            - './app:/var/www'
         networks:
             - LEMP
 
@@ -48,6 +48,6 @@ services:
             MYSQL_USER: ${MYSQL_USER:?err}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
         volumes:
-            - './docker/mariadb:/var/lib/mysql,rw'
+            - './docker/mariadb:/var/lib/mysql'
         networks:
             - LEMP
