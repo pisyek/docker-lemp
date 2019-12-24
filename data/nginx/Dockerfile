@@ -46,7 +46,7 @@ COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-RUN rm -d /var/www/html
+RUN rm -rf /var/www/html
 
 EXPOSE 80
 
