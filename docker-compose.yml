@@ -7,18 +7,18 @@ networks:
 services:
     php:
         build:
-            context: ./data/php
+            context: ./docker/php
             dockerfile: Dockerfile
         container_name: php
         restart: 'unless-stopped'
         volumes:
-            - './app:/var/www'
+            - './app:/var/www,rw'
         networks:
             - LEMP
 
     nginx:
         build:
-            context: ./data/nginx
+            context: ./docker/nginx
             dockerfile: Dockerfile
         container_name: nginx
         ports:
@@ -27,9 +27,9 @@ services:
         restart: 'unless-stopped'
         volumes:
             - './app:/var/www'
-            - './data/nginx/conf:/etc/nginx/conf.d'
-            - './data/nginx/snippets:/etc/nginx/snippets'
-            - './data/nginx/log:/var/log/nginx'
+            - './docker/nginx/conf:/etc/nginx/conf.d'
+            - './docker/nginx/snippets:/etc/nginx/snippets'
+            - './docker/nginx/log:/var/log/nginx'
         depends_on:
             - php
             - mariadb
@@ -48,6 +48,6 @@ services:
             MYSQL_USER: ${MYSQL_USER:?err}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
         volumes:
-            - ./data/mariadb:/var/lib/mysql
+            - './docker/mariadb:/var/lib/mysql,rw'
         networks:
             - LEMP
