@@ -9,6 +9,8 @@ services:
         build:
             context: ./docker/php
             dockerfile: Dockerfile
+            args:
+                GROUP_ID: ${GROUPD_ID:-0}
         container_name: php
         restart: 'unless-stopped'
         volumes:

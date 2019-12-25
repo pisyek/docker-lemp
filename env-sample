@@ -1,3 +1,7 @@
+# host user gid
+GROUP_ID=
+
+# mariadb config
 MYSQL_ROOT_PASSWORD=
 MYSQL_DATABASE=
 MYSQL_USER=
