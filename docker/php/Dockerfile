@@ -1,6 +1,7 @@
 FROM php:7.4-fpm-alpine
 
-ARG GROUP_ID
+ARG HOST_USER_ID
+ARG HOST_GROUP_ID
 
 RUN apk update && \
     docker-php-ext-install bcmath mysqli pdo_mysql && \
@@ -9,4 +10,4 @@ RUN apk update && \
 COPY ./zz-php.ini /usr/local/etc/php/conf.d/zz-php.ini
 
 RUN apk add shadow && \
-    usermod -aG ${GROUP_ID} www-data
+    usermod -u ${HOST_USER_ID} www-data && groupmod -g ${HOST_GROUP_ID} www-data
