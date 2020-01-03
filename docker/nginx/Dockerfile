@@ -1,4 +1,4 @@
-FROM nginx:alpine AS builder
+FROM nginx:alpine AS nginx_builder
 
 # nginx:alpine contains NGINX_VERSION environment variable, like so:
 # ENV NGINX_VERSION 1.15.0
@@ -41,8 +41,8 @@ RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
 
 FROM nginx:alpine
 
-# Extract the dynamic module headers more from the builder image
-COPY --from=builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so
+# Extract the dynamic module headers more from the nginx_builder image
+COPY --from=nginx_builder /usr/local/nginx/modules/ngx_http_headers_more_filter_module.so /etc/nginx/modules/ngx_http_headers_more_filter_module.so
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
