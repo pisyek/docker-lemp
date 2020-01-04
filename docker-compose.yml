@@ -54,3 +54,15 @@ services:
             - './docker/mariadb:/var/lib/mysql'
         networks:
             - LEMP
+
+    postfix:
+        image: 'boky/postfix'
+        container_name: postfix
+        restart: 'always'
+        environment:
+            HOSTNAME: ${POSTFIX_HOSTNAME:-postfix-docker}
+            ALLOWED_SENDER_DOMAINS: ${POSTFIX_ALLOWED_SENDER_DOMAINS:-}
+        volumes:
+            - './docker/postfix/keys:/etc/opendkim/keys'
+        networks:
+            - LEMP
