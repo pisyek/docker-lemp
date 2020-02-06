@@ -7,7 +7,7 @@ networks:
 services:
     php:
         build:
-            context: ./docker/php
+            context: ./app/php
             dockerfile: Dockerfile
             args:
                 HOST_USER_ID: ${HOST_USER_ID:-0}
@@ -15,13 +15,13 @@ services:
         container_name: php
         restart: 'unless-stopped'
         volumes:
-            - './app:/var/www'
+            - './www:/var/www'
         networks:
             - LEMP
 
     nginx:
         build:
-            context: ./docker/nginx
+            context: ./app/nginx
             dockerfile: Dockerfile
         container_name: nginx
         ports:
@@ -29,10 +29,10 @@ services:
             - '443:443'
         restart: 'unless-stopped'
         volumes:
-            - './app:/var/www'
-            - './docker/nginx/conf:/etc/nginx/conf.d'
-            - './docker/nginx/snippets:/etc/nginx/snippets'
-            - './docker/nginx/log:/var/log/nginx'
+            - './www:/var/www'
+            - './app/nginx/conf:/etc/nginx/conf.d'
+            - './app/nginx/snippets:/etc/nginx/snippets'
+            - './app/nginx/log:/var/log/nginx'
         depends_on:
             - php
             - mariadb
@@ -51,7 +51,7 @@ services:
             MYSQL_USER: ${MYSQL_USER:?err}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
         volumes:
-            - './docker/mariadb:/var/lib/mysql'
+            - './app/mariadb:/var/lib/mysql'
         networks:
             - LEMP
 
@@ -63,6 +63,6 @@ services:
             HOSTNAME: ${POSTFIX_HOSTNAME:-postfix-docker}
             ALLOWED_SENDER_DOMAINS: ${POSTFIX_ALLOWED_SENDER_DOMAINS:-}
         volumes:
-            - './docker/postfix/keys:/etc/opendkim/keys'
+            - './app/postfix/keys:/etc/opendkim/keys'
         networks:
             - LEMP
