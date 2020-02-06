@@ -1,4 +1,4 @@
 .env
 .idea/
-/docker/mariadb/*
-/docker/nginx/log/*
+/app/mariadb/*
+/app/nginx/log/*
