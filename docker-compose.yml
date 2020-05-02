@@ -45,6 +45,7 @@ services:
         ports:
             - 127.0.0.1:3306:3306
         restart: 'unless-stopped'
+        command: --max_allowed_packet=64M
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
             MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
