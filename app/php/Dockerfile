@@ -6,7 +6,7 @@ ARG HOST_GROUP_ID
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
 RUN apk update && \
-    install-php-extensions bcmath exif imagick mysqli pdo_mysql gd zip && \
+    install-php-extensions bcmath exif imagick mysqli pdo_mysql gd zip soap && \
     # run php as current user
     apk add shadow && \
     usermod -u ${HOST_USER_ID} www-data && groupmod -g ${HOST_GROUP_ID} www-data
