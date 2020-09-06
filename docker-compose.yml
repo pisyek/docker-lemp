@@ -40,7 +40,7 @@ services:
             - LEMP
 
     mariadb:
-        image: 'mariadb:10.4.10'
+        image: 'mariadb:10.5.5'
         container_name: mariadb
         ports:
             - 127.0.0.1:3306:3306
